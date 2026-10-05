@@ -1,0 +1,17 @@
+{
+  "outdir": "D:\\papers",
+  "items": [
+    {
+      "file": "vaswani2017-attention.pdf",
+      "doi": "10.48550/arXiv.1706.03762"
+    },
+    {
+      "file": "lecun2015-deep-learning.pdf",
+      "doi": "10.1038/nature14539"
+    },
+    {
+      "file": "jumper2021-alphafold.pdf",
+      "doi": "10.1038/s41586-021-03819-2"
+    }
+  ]
+}
