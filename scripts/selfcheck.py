@@ -12,10 +12,18 @@
   5. 没有明显的凭据泄漏
 """
 
-import os
 import re
 import sys
 from pathlib import Path
+
+# Windows 控制台默认可能是 cp1252/GBK，直接 print 中文会抛 UnicodeEncodeError
+# （GitHub Actions 的 windows-latest runner 就是这种情况）。
+# 强制 stdout/stderr 使用 UTF-8，无法编码的字符用替代符而不是崩溃。
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError, ValueError):  # Python < 3.7 或非标准流
+        pass
 
 ROOT = Path(__file__).resolve().parent.parent
 
