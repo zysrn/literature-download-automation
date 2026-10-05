@@ -1,0 +1,39 @@
+name: selfcheck
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  selfcheck:
+    name: Repo self-check (${{ matrix.os }} / py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install PyYAML (for real frontmatter parsing)
+        run: python -m pip install --upgrade pip pyyaml
+
+      - name: Byte-compile all scripts
+        run: python -m compileall -q scripts
+
+      - name: Run repo self-check
+        run: python scripts/selfcheck.py
+
+      - name: Validate example job.json
+        run: python -c "import json;json.load(open('examples/job.example.json',encoding='utf-8'));print('job.example.json OK')"
+
+      - name: Clean up bytecode from compileall
+        run: python -c "import shutil,pathlib;[shutil.rmtree(p,ignore_errors=True) for p in pathlib.Path('.').rglob('__pycache__')]"
