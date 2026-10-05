@@ -17,23 +17,27 @@ jobs:
         python-version: ["3.9", "3.12"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install PyYAML (for real frontmatter parsing)
         run: python -m pip install --upgrade pip pyyaml
 
-      - name: Byte-compile all scripts
-        run: python -m compileall -q scripts
-
+      # 先自检，再编译：selfcheck 的 [4] 会把 __pycache__ 当成垃圾文件，
+      # 如果先 compileall 就会误报（Windows 上尤其明显）。
       - name: Run repo self-check
         run: python scripts/selfcheck.py
+
+      - name: Byte-compile all scripts
+        run: python -m compileall -q scripts
 
       - name: Validate example job.json
         run: python -c "import json;json.load(open('examples/job.example.json',encoding='utf-8'));print('job.example.json OK')"
 
+      # 编译产物不进版本库，但清掉以免影响后续步骤
       - name: Clean up bytecode from compileall
+        if: always()
         run: python -c "import shutil,pathlib;[shutil.rmtree(p,ignore_errors=True) for p in pathlib.Path('.').rglob('__pycache__')]"
