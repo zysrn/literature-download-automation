@@ -88,7 +88,7 @@ git add .dsh/skills && git commit -m "add literature download skill"
 `scripts/` 里的脚本是独立可用的，直接 clone 就能跑：
 
 ```bash
-git clone https://github.com/<owner>/literature-download-automation.git
+git clone https://github.com/zysrn/literature-download-automation.git
 cd literature-download-automation
 python -m pip install websocket-client pypdf
 ```
