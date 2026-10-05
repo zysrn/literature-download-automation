@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local job files and downloaded output (never commit your own papers)
+job.json
+out/
+downloads/
+*.pdf
+*.crdownload
+
+# Browser profiles created by launch_edge.ps1
+.dsh-browser-profile/
+browser-profile/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Secrets — never commit these
+.env
+*.token
+credentials.json
