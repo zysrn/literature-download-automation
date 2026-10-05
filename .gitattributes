@@ -1,0 +1,14 @@
+# 统一换行符，避免 Windows/macOS/Linux 之间来回 checkout 改坏文件
+* text=auto eol=lf
+
+# PowerShell 脚本必须保留 CRLF + UTF-8 BOM（PowerShell 5.1 对 BOM 有依赖）
+*.ps1 text eol=crlf
+
+# 二进制
+*.pdf binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.exe binary
+*.dll binary
